@@ -1,6 +1,7 @@
 package org.example;
 
-public class Monomial {
+public class Monomial
+{
     int degree = 0;
     double coefficient = 0;
     public Monomial(int degree, double coefficient)
@@ -43,5 +44,13 @@ public class Monomial {
     public Monomial multiplication(Monomial x, Monomial y)
     {
         return new Monomial(x.degree + y.degree, x.coefficient * y.coefficient);
+    }
+
+    public String toString()
+    {
+        if (coefficient < 0)
+            return coefficient + "X^" + degree;
+        else
+            return  "+" + coefficient + "X^" + degree;
     }
 }
