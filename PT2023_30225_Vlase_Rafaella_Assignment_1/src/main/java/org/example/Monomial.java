@@ -9,8 +9,39 @@ public class Monomial {
         this.coefficient = coefficient;
     }
 
-    public Monomial division(Monomial x)
+    public int getDegree()
     {
-        return new Monomial(this.degree/x.degree, this.coefficient*x.coefficient);
+        return degree;
+    }
+    public void setDegree(int degree)
+    {
+        this.degree = degree;
+    }
+    public double getCoefficient()
+    {
+        return coefficient;
+    }
+    public void setCoefficient(double coefficient)
+    {
+        this.coefficient = coefficient;
+    }
+    public Monomial addition(Monomial x, Monomial y)
+    {
+        return new Monomial(x.degree, x.coefficient + y.coefficient);
+    }
+
+    public Monomial subtraction(Monomial x, Monomial y)
+    {
+        return new Monomial(x.degree, x.coefficient - y.coefficient);
+    }
+    public Monomial division(Monomial x, Monomial y)
+    {
+        if (y.coefficient == 0)
+            throw new ArithmeticException("Division by zero");
+        return new Monomial(x.degree - y.degree, x.coefficient / y.coefficient);
+    }
+    public Monomial multiplication(Monomial x, Monomial y)
+    {
+        return new Monomial(x.degree + y.degree, x.coefficient * y.coefficient);
     }
 }
