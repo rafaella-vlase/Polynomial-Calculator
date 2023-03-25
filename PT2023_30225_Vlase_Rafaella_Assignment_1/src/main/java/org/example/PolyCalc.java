@@ -1,66 +1,71 @@
 package org.example;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.*;
 
-public class PolyCalc extends JFrame implements ActionListener {
+public class PolyCalc extends JFrame {
 
-    private JTextField poly1Field, poly2Field, resultField;
+    private JPanel topPanel, bottomPanel;
+    private JLabel polynomial1Label, polynomial2Label, resultLabel;
+    private JTextField polynomial1Field, polynomial2Field, resultField;
+    private JButton addButton, subButton, mulButton, divButton, derButton, intButton, calcButton;
 
     public PolyCalc() {
-        setTitle("Polynomial Calculator");
-        setSize(600, 250);
+        // Create and configure the window
+        super("Polynomial Calculator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-        // create panel for the entire content
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(null); // absolute positioning
-        contentPanel.setBackground(new Color(230, 216, 255)); // lavender-light blue
-
-        // create panel for polynomial input boxes
-        JPanel polyPanel = new JPanel();
-        polyPanel.setLayout(new GridLayout(2, 1));
-        poly1Field = new JTextField(20);
-        poly2Field = new JTextField(20);
-        polyPanel.setBackground(new Color(230, 216, 255));
-        polyPanel.add(new JLabel("Polynomial 1: "));
-        polyPanel.add(poly1Field);
-        polyPanel.add(new JLabel("Polynomial 2: "));
-        polyPanel.add(poly2Field);
-        polyPanel.setBounds(10, 10, 250, 100); // absolute positioning
-        contentPanel.add(polyPanel);
-
-        // create panel for calculator buttons
-        JPanel calcPanel = new JPanel();
-        calcPanel.setLayout(new GridLayout(4, 4));
-        String[] buttonLabels = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "X", "+", "-", "*", "/", "^", "\u2202", "\u222b", "=", "Del"};
-        calcPanel.setBackground(new Color(230, 216, 255));
-        for (String label : buttonLabels) {
-            JButton button = new JButton(label);
-            button.addActionListener(this);
-            calcPanel.add(button);
-        }
-        calcPanel.setBounds(270, 10, 310, 180); // absolute positioning
-        contentPanel.add(calcPanel);
-
-        // create panel for result display
-        JPanel resultPanel = new JPanel();
-        resultPanel.setLayout(new FlowLayout());
-        resultPanel.add(new JLabel("Result: "));
-        resultField = new JTextField(20);
+        // Create the top panel with labels and text fields
+        topPanel = new JPanel(new GridLayout(3, 2));
+        polynomial1Label = new JLabel("Polynomial 1:");
+        polynomial1Field = new JTextField();
+        polynomial1Field.setOpaque(false);
+        polynomial2Label = new JLabel("Polynomial 2:");
+        polynomial2Field = new JTextField();
+        polynomial2Field.setOpaque(false);
+        resultLabel = new JLabel("Result:");
+        resultField = new JTextField();
+        resultField.setOpaque(false);
         resultField.setEditable(false);
-        resultPanel.add(resultField);
-        resultPanel.setBounds(10, 120, 250, 70); // absolute positioning
-        resultPanel.setBackground(new Color(230, 216, 255));
-        contentPanel.add(resultPanel);
+        topPanel.add(polynomial1Label);
+        topPanel.add(polynomial1Field);
+        topPanel.add(polynomial2Label);
+        topPanel.add(polynomial2Field);
+        topPanel.add(resultLabel);
+        topPanel.add(resultField);
+        add(topPanel, BorderLayout.NORTH);
+        topPanel.setBackground(new Color(230, 216, 255));
+        // Create the bottom panel with buttons
+        bottomPanel = new JPanel(new GridLayout(2, 3, 5, 5));
+        addButton = new JButton("Addition");
+        addButton.setBackground(new Color(228, 247, 245));
+        subButton = new JButton("Subtraction");
+        subButton.setBackground(new Color(228, 247, 245));
+        mulButton = new JButton("Multiplication");
+        mulButton.setBackground(new Color(228, 247, 245));
+        divButton = new JButton("Division");
+        divButton.setBackground(new Color(228, 247, 245));
+        derButton = new JButton("Derivative");
+        derButton.setBackground(new Color(228, 247, 245));
+        intButton = new JButton("Integration");
+        intButton.setBackground(new Color(228, 247, 245));
+        calcButton = new JButton("Calculate");
+        calcButton.setBackground(new Color(228, 247, 245));
+        bottomPanel.add(addButton);
+        bottomPanel.add(subButton);
+        bottomPanel.add(mulButton);
+        bottomPanel.add(divButton);
+        bottomPanel.add(derButton);
+        bottomPanel.add(intButton);
+        bottomPanel.setBackground(new Color(230, 216, 255));
+        add(bottomPanel, BorderLayout.CENTER);
+        add(calcButton, BorderLayout.SOUTH);
 
-        setContentPane(contentPanel);
+        // Show the window
+        pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-        // implement calculator logic here based on button commands
-    }
 }
