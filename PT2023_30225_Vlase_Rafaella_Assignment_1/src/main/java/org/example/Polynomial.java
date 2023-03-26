@@ -103,9 +103,11 @@ public class Polynomial {
         Polynomial result = new Polynomial();
         for (int degree : monomials.keySet()) {
             Double coeff = monomials.get(degree);
-            Double newCoeff = coeff / (degree + 1);
+            Double newCoeff = coeff / (degree + 1.0);
             result.addDouble(degree + 1, newCoeff);
         }
+        result.addDouble(0, 0.0);
+
         return result;
     }
 
@@ -144,6 +146,43 @@ public class Polynomial {
             sb.append("0");
         }
 
+        return sb.toString();
+    }
+
+
+    public String toStringIntegration()
+    {
+        StringBuilder sb = new StringBuilder();
+        TreeMap<Integer, Double> sortedMonomials = new TreeMap<>(monomials);
+
+        NavigableSet<Integer> degrees = sortedMonomials.descendingKeySet();
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        for (int degree : degrees) {
+            Double coeff = sortedMonomials.get(degree);
+            if (coeff != 0) {
+                if (coeff < 0) {
+                    sb.append(" - ");
+                    coeff = -coeff;
+                } else if (sb.length() > 0) {
+                    sb.append(" + ");
+                }
+                if (coeff != 1 || degree == 0) {
+                    sb.append(df.format(coeff));
+                }
+                if (degree > 0) {
+                    sb.append("X");
+                    if (degree > 1) {
+                        sb.append("^").append(degree);
+                    }
+                }
+            }
+        }
+
+        if (sb.length() == 0) {
+            sb.append("0");
+        }
+        sb.append(" +C");
         return sb.toString();
     }
 }
