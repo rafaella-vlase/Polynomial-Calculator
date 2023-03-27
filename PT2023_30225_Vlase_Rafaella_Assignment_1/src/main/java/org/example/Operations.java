@@ -1,4 +1,4 @@
-package org.example;
+/*package org.example;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,10 +29,11 @@ public class Operations {
         Polynomial product = Polynomial.multiplication(p1, p2);
         System.out.println("p1 * p2 = " + product.toString());
 
-        Polynomial derivative = p1.derivative();
-        System.out.println("p1' = " + derivative.toString());
+        //Polynomial derivative = p1.derivative(Polynomial.parse(p1));
+        //System.out.println("p1' = " + derivative.toString());
 
-        Polynomial integral = p1.integration();
-        System.out.println("∫p1 = " + integral.toStringIntegration());
+        //Polynomial integral = p1.integration(Polynomial.parse(p1));
+        //System.out.println("∫p1 = " + integral.toStringIntegration());
     }
 }
+*/

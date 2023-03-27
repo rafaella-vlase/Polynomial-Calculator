@@ -1,188 +1,148 @@
 package org.example;
-import java.text.DecimalFormat;
 import java.util.Map;
-import java.util.NavigableSet;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.text.DecimalFormat;
 
 public class Polynomial {
-    private Map<Integer, Double> monomials;
+    public TreeMap<Integer, Double> polynomial;
+    public TreeMap<Integer, Double> polynomial1;
+    public TreeMap<Integer, Double> polynomial2;
+    public TreeMap<Integer, Double> result;
 
     public Polynomial() {
-        monomials = new TreeMap<>();
+        this.polynomial1 = new TreeMap<>();
+        this.polynomial2 = new TreeMap<>();
+        this.result = new TreeMap<>();
     }
 
-    public Polynomial(Map<Integer, Double> monomials) {
-        this.monomials = new TreeMap<>(monomials);
+    public Polynomial(TreeMap<Integer, Double> polynomial) {
+        this.polynomial = polynomial;
     }
 
-    public Polynomial(String polynomial)
-    {
-        monomials = new TreeMap<>();
-        Pattern pattern = Pattern.compile("([+\\-]?[0-9]*\\.?[0-9]*X\\^([0-9]+))([+\\-][0-9]*\\.?[0-9]*X\\^[0-9]+)*");
-        Matcher matcher = pattern.matcher(polynomial);
-        while (matcher.find())
-        {
-            Double coeff = Double.parseDouble(matcher.group(1));
-            String degreeStr = matcher.group(3);
-            if (degreeStr != null) {
-                int degree = Integer.parseInt(degreeStr);
-                addDouble(degree, coeff);
+    public Polynomial(String polynomialString) {
+        this.polynomial1 = new TreeMap<>();
+        this.polynomial2 = new TreeMap<>();
+        this.result = new TreeMap<>();
+        Pattern pattern = Pattern.compile("([+\\-]?\\d*)(x(?:\\^(\\d+))?)?");
+        Matcher matcher = pattern.matcher(polynomialString);
+        while (matcher.find()) {
+            String coeffString = matcher.group(1);
+            String degreeString = matcher.group(3);
+            double coeff = 0;
+            int degree = 0;
+            if (!coeffString.isEmpty()) {
+                coeff = Double.parseDouble(coeffString);
+            }
+            if (degreeString != null) {
+                degree = Integer.parseInt(degreeString);
+            }
+            if (result.containsKey(degree)) {
+                coeff += result.get(degree);
+            }
+            result.put(degree, coeff);
+        }
+    }
+
+
+    public void addition() {
+
+        for (int degree : polynomial1.keySet()) {
+            double coeff = polynomial1.get(degree);
+            result.put(degree, coeff);
+        }
+            for (int degree : polynomial2.keySet()) {
+                double coefficient = polynomial2.get(degree);
+                if (result.containsKey(degree)) {
+                    double currentCoefficient = result.get(degree);
+                    result.put(degree, currentCoefficient + coefficient);
+                } else {
+                    result.put(degree, coefficient);
+                }
+            }
+    }
+
+
+    public void subtraction() {
+        for (int degree : polynomial1.keySet()) {
+            double coeff = polynomial.get(degree);
+            result.put(degree, coeff);
+        }
+        for (int degree : polynomial2.keySet()) {
+            double coefficient = polynomial2.get(degree);
+            if (result.containsKey(degree)) {
+                double currentCoefficient = result.get(degree);
+                result.put(degree, currentCoefficient - coefficient);
             } else {
-                addDouble(0, coeff);
+                result.put(degree, -coefficient);
+            }
+        }
+
+    }
+
+    public void multiplication() {
+        for (int degree1 : polynomial1.keySet()) {
+            for (int degree2 : polynomial2.keySet()) {
+                double coefficient1 = polynomial1.get(degree1);
+                double coefficient2 = polynomial2.get(degree2);
+                int degreeResult = degree1 + degree2;
+                double coefficientResult = coefficient1 * coefficient2;
+                if (result.containsKey(degreeResult)) {
+                    double currentCoefficient = result.get(degreeResult);
+                    result.put(degreeResult, currentCoefficient + coefficientResult);
+                } else {
+                    result.put(degreeResult, coefficientResult);
+                }
             }
         }
     }
 
-    public void addDouble(int degree, Double monomial) {
-        if (monomials.containsKey(degree)) {
-            Double existing = monomials.get(degree);
-            Double newDouble = existing + monomial;
-            monomials.put(degree, newDouble);
-        } else {
-            monomials.put(degree, monomial);
-        }
-    }
-
-    public static Polynomial addition(Polynomial x, Polynomial y) {
-        Polynomial result = new Polynomial();
-        for (int degree : x.monomials.keySet()) {
-            Double monomial = x.monomials.get(degree);
-            result.addDouble(degree, monomial);
-        }
-
-        for (int degree : y.monomials.keySet()) {
-            Double monomial = y.monomials.get(degree);
-            result.addDouble(degree, monomial);
-        }
-        return result;
-    }
-
-    public static Polynomial subtraction(Polynomial x, Polynomial y) {
-        Polynomial result = new Polynomial();
-        for (int degree : x.monomials.keySet()) {
-            Double monomial = x.monomials.get(degree);
-            result.addDouble(degree, monomial);
-        }
-
-        for (int degree : y.monomials.keySet()) {
-            Double monomial = y.monomials.get(degree);
-            result.addDouble(degree, -monomial);
-        }
-        return result;
-    }
-
-    public static Polynomial multiplication(Polynomial x, Polynomial y) {
-        Polynomial result = new Polynomial();
-        for (int degX : x.monomials.keySet()) {
-            Double coeffX = x.monomials.get(degX);
-            for (int degY : y.monomials.keySet()) {
-                Double coeffY = y.monomials.get(degY);
-                int deg = degX + degY;
-                Double coeff = coeffX * coeffY;
-                result.addDouble(deg, coeff);
-            }
-        }
-        return result;
-    }
-
-    public Polynomial derivative() {
-        Polynomial result = new Polynomial();
-        for (int degree : monomials.keySet()) {
+    public void derivative(TreeMap<Integer, Double> polynomial1) {
+        for (int degree : polynomial1.keySet()) {
+            double coefficient = polynomial1.get(degree);
             if (degree > 0) {
-                Double coeff = monomials.get(degree);
-                Double newCoeff = coeff * degree;
-                result.addDouble(degree - 1, newCoeff);
+                result.put(degree - 1, degree * coefficient);
             }
         }
-        return result;
     }
 
-    public Polynomial integration() {
-        Polynomial result = new Polynomial();
-        for (int degree : monomials.keySet()) {
-            Double coeff = monomials.get(degree);
-            Double newCoeff = coeff / (degree + 1.0);
-            result.addDouble(degree + 1, newCoeff);
+    public void integration(TreeMap<Integer, Double> polynomial1) {
+        for (int degree : polynomial1.keySet()) {
+            double coefficient = polynomial1.get(degree);
+            result.put(degree + 1, coefficient / (degree + 1));
         }
-        result.addDouble(0, 0.0);
-
-        return result;
+        result.put(0, 0.0);
     }
-
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
-        TreeMap<Integer, Double> sortedMonomials = new TreeMap<>(monomials);
+        DecimalFormat df = new DecimalFormat("#.###");
 
-        NavigableSet<Integer> degrees = sortedMonomials.descendingKeySet();
-
-        DecimalFormat df = new DecimalFormat("#.##");
-        for (int degree : degrees) {
-            Double coeff = sortedMonomials.get(degree);
-            if (coeff != 0) {
-                if (coeff < 0) {
-                    sb.append(" - ");
-                    coeff = -coeff;
-                } else if (sb.length() > 0) {
-                    sb.append(" + ");
-                }
-                if (coeff != 1 || degree == 0) {
-                    sb.append(df.format(coeff));
-                }
-                if (degree > 0) {
-                    sb.append("X");
-                    if (degree > 1) {
-                        sb.append("^").append(degree);
-                    }
+        for (Map.Entry<Integer, Double> term : result.entrySet()) {
+            int degree = term.getKey();
+            double coeff = term.getValue();
+            if (sb.length() > 0 && coeff > 0) {
+                sb.append(" + ");
+            }
+            if (coeff < 0) {
+                sb.append("- ");
+                coeff = -coeff;
+            }
+            if (coeff != 1 || degree == 0) {
+                sb.append(df.format(coeff));
+            }
+            if (degree > 0) {
+                sb.append("x");
+                if (degree > 1) {
+                    sb.append("^").append(degree);
                 }
             }
         }
-
         if (sb.length() == 0) {
             sb.append("0");
         }
-
-        return sb.toString();
-    }
-
-
-    public String toStringIntegration()
-    {
-        StringBuilder sb = new StringBuilder();
-        TreeMap<Integer, Double> sortedMonomials = new TreeMap<>(monomials);
-
-        NavigableSet<Integer> degrees = sortedMonomials.descendingKeySet();
-
-        DecimalFormat df = new DecimalFormat("#.##");
-        for (int degree : degrees) {
-            Double coeff = sortedMonomials.get(degree);
-            if (coeff != 0) {
-                if (coeff < 0) {
-                    sb.append(" - ");
-                    coeff = -coeff;
-                } else if (sb.length() > 0) {
-                    sb.append(" + ");
-                }
-                if (coeff != 1 || degree == 0) {
-                    sb.append(df.format(coeff));
-                }
-                if (degree > 0) {
-                    sb.append("X");
-                    if (degree > 1) {
-                        sb.append("^").append(degree);
-                    }
-                }
-            }
-        }
-
-        if (sb.length() == 0) {
-            sb.append("0");
-        }
-        sb.append(" +C");
         return sb.toString();
     }
 }
