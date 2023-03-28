@@ -106,22 +106,17 @@ public class PolyCalc extends JFrame {
             resultField.setText(poly1.toString());
         });
 
-
-        // Derivative button action listener
         derButton.addActionListener(e -> {
             Polynomial poly = new Polynomial(polynomial1Field.getText());
             poly.derivative(poly.polynomial1);
             resultField.setText(poly.toString());
         });
 
-// Integration button action listener
         intButton.addActionListener(e -> {
             Polynomial poly = new Polynomial(polynomial1Field.getText());
-            poly.integration(poly.polynomial1);
+            poly.integration();
             resultField.setText(poly.toString());
         });
-
-
 
         bottomPanel.add(addButton);
         bottomPanel.add(subButton);

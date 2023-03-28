@@ -1,12 +1,12 @@
 package org.example;
+import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.text.DecimalFormat;
 
 public class Polynomial {
-    public TreeMap<Integer, Double> polynomial;
     public TreeMap<Integer, Double> polynomial1;
     public TreeMap<Integer, Double> polynomial2;
     public TreeMap<Integer, Double> result;
@@ -18,7 +18,9 @@ public class Polynomial {
     }
 
     public Polynomial(TreeMap<Integer, Double> polynomial) {
-        this.polynomial = polynomial;
+        this.polynomial1 = polynomial;
+        this.polynomial2 = new TreeMap<>();
+        this.result = new TreeMap<>();
     }
 
     public Polynomial(String polynomialString) {
@@ -45,28 +47,25 @@ public class Polynomial {
         }
     }
 
-
     public void addition() {
-
         for (int degree : polynomial1.keySet()) {
             double coeff = polynomial1.get(degree);
             result.put(degree, coeff);
         }
-            for (int degree : polynomial2.keySet()) {
-                double coefficient = polynomial2.get(degree);
-                if (result.containsKey(degree)) {
-                    double currentCoefficient = result.get(degree);
-                    result.put(degree, currentCoefficient + coefficient);
-                } else {
-                    result.put(degree, coefficient);
-                }
+        for (int degree : polynomial2.keySet()) {
+            double coefficient = polynomial2.get(degree);
+            if (result.containsKey(degree)) {
+                double currentCoefficient = result.get(degree);
+                result.put(degree, currentCoefficient + coefficient);
+            } else {
+                result.put(degree, coefficient);
             }
+        }
     }
-
 
     public void subtraction() {
         for (int degree : polynomial1.keySet()) {
-            double coeff = polynomial.get(degree);
+            double coeff = polynomial1.get(degree);
             result.put(degree, coeff);
         }
         for (int degree : polynomial2.keySet()) {
@@ -78,7 +77,6 @@ public class Polynomial {
                 result.put(degree, -coefficient);
             }
         }
-
     }
 
     public void multiplication() {
@@ -98,16 +96,17 @@ public class Polynomial {
         }
     }
 
-    public void derivative(TreeMap<Integer, Double> polynomial1) {
-        for (int degree : polynomial1.keySet()) {
-            double coefficient = polynomial1.get(degree);
+    public void derivative(TreeMap<Integer, Double> polynomial) {
+        for (int degree : polynomial.keySet()) {
+            double coefficient = polynomial.get(degree);
             if (degree > 0) {
                 result.put(degree - 1, degree * coefficient);
             }
         }
     }
 
-    public void integration(TreeMap<Integer, Double> polynomial1) {
+    public void integration() {
+        result = new TreeMap<>();
         for (int degree : polynomial1.keySet()) {
             double coefficient = polynomial1.get(degree);
             result.put(degree + 1, coefficient / (degree + 1));
