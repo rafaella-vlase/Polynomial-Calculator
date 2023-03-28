@@ -10,6 +10,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PolyCalc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/PolyCalc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Polynomial.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Polynomial.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/OperationsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/OperationsTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
