@@ -1,6 +1,6 @@
 
 
-import org.example.Polynomial;
+import polynomial.Polynomial;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

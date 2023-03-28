@@ -1,4 +1,4 @@
-package org.example;
+package polynomial;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
