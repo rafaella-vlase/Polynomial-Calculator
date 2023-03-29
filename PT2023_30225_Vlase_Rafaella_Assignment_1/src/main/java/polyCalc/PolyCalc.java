@@ -69,6 +69,8 @@ public class PolyCalc extends JFrame {
         JButton divButton = new JButton("Division");
         divButton.setBackground(new Color(154, 48, 154));
         divButton.setForeground(new Color(255, 255, 255));
+        divButton.setActionCommand("div");
+
         JButton derButton = new JButton("Derivative");
         derButton.setBackground(new Color(255, 222, 252));
         derButton.setForeground(new Color(0, 0, 0));
@@ -102,8 +104,17 @@ public class PolyCalc extends JFrame {
             Polynomial poly1 = new Polynomial(polynomial1Field.getText());
             Polynomial poly2 = new Polynomial(polynomial2Field.getText());
             Polynomial result = new Polynomial();
-            result.multiplication(poly1);
+            result.addition(poly1);
             result.multiplication(poly2);
+            resultField.setText(Polynomial.toString(result.polynomial));
+        });
+
+        divButton.addActionListener(e -> {
+            Polynomial poly1 = new Polynomial(polynomial1Field.getText());
+            Polynomial poly2 = new Polynomial(polynomial2Field.getText());
+            Polynomial result = new Polynomial();
+            result.addition(poly1);
+            result.division(poly2);
             resultField.setText(Polynomial.toString(result.polynomial));
         });
 
