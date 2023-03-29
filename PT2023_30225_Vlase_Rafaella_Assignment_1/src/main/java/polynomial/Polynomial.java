@@ -1,32 +1,31 @@
 package polynomial;
+
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Polynomial {
-    public TreeMap<Integer, Double> polynomial1;
-    public TreeMap<Integer, Double> polynomial2;
-    public TreeMap<Integer, Double> result;
+    public TreeMap<Integer, Double> polynomial;
+
+    public TreeMap<Integer, Double> getPolynomial() {
+        return polynomial;
+    }
+
+    public void setPolynomial(TreeMap<Integer, Double> polynomial) {
+        this.polynomial = polynomial;
+    }
 
     public Polynomial() {
-        this.polynomial1 = new TreeMap<>();
-        this.polynomial2 = new TreeMap<>();
-        this.result = new TreeMap<>();
+        this.polynomial = new TreeMap<>();
     }
 
     public Polynomial(TreeMap<Integer, Double> polynomial) {
-        this.polynomial1 = polynomial;
-        this.polynomial2 = new TreeMap<>();
-        this.result = new TreeMap<>();
+        this.polynomial = polynomial;
     }
 
     public Polynomial(String polynomialString) {
-        this.polynomial1 = new TreeMap<>();
-        this.polynomial2 = new TreeMap<>();
-        this.result = new TreeMap<>();
+        this.polynomial = new TreeMap<>();
         Pattern pattern = Pattern.compile("([+\\-]?\\d*)(x(?:\\^(\\d+))?)?");
         Matcher matcher = pattern.matcher(polynomialString);
         while (matcher.find()) {
@@ -40,108 +39,119 @@ public class Polynomial {
             if (degreeString != null) {
                 degree = Integer.parseInt(degreeString);
             }
-            if (result.containsKey(degree)) {
-                coeff += result.get(degree);
+            if (polynomial.containsKey(degree)) {
+                coeff += polynomial.get(degree);
             }
-            result.put(degree, coeff);
+            polynomial.put(degree, coeff);
         }
     }
 
-    public void addition() {
-        for (int degree : polynomial1.keySet()) {
-            double coeff = polynomial1.get(degree);
-            result.put(degree, coeff);
-        }
-        for (int degree : polynomial2.keySet()) {
-            double coefficient = polynomial2.get(degree);
-            if (result.containsKey(degree)) {
-                double currentCoefficient = result.get(degree);
-                result.put(degree, currentCoefficient + coefficient);
+    public void addition(Polynomial p) {
+        for (int degree : p.polynomial.keySet()) {
+            double coeff = p.polynomial.get(degree);
+            if (polynomial.containsKey(degree)) {
+                double currentCoefficient = polynomial.get(degree);
+                polynomial.put(degree, currentCoefficient + coeff);
             } else {
-                result.put(degree, coefficient);
+                polynomial.put(degree, coeff);
             }
         }
     }
 
-    public void subtraction() {
-        for (int degree : polynomial1.keySet()) {
-            double coeff = polynomial1.get(degree);
-            result.put(degree, coeff);
-        }
-        for (int degree : polynomial2.keySet()) {
-            double coefficient = polynomial2.get(degree);
-            if (result.containsKey(degree)) {
-                double currentCoefficient = result.get(degree);
-                result.put(degree, currentCoefficient - coefficient);
+    public void subtraction(Polynomial p) {
+        for (int degree : p.polynomial.keySet()) {
+            double coeff = p.polynomial.get(degree);
+            if (polynomial.containsKey(degree)) {
+                double currentCoefficient = polynomial.get(degree);
+                polynomial.put(degree, currentCoefficient - coeff);
             } else {
-                result.put(degree, -coefficient);
+                polynomial.put(degree, -coeff);
             }
         }
     }
 
-    public void multiplication() {
-        for (int degree1 : polynomial1.keySet()) {
-            for (int degree2 : polynomial2.keySet()) {
-                double coefficient1 = polynomial1.get(degree1);
-                double coefficient2 = polynomial2.get(degree2);
-                int degreeResult = degree1 + degree2;
-                double coefficientResult = coefficient1 * coefficient2;
-                if (result.containsKey(degreeResult)) {
-                    double currentCoefficient = result.get(degreeResult);
-                    result.put(degreeResult, currentCoefficient + coefficientResult);
-                } else {
-                    result.put(degreeResult, coefficientResult);
+    public void multiplication(Polynomial p) {
+        Polynomial result = new Polynomial();
+        for (int degree1 : this.polynomial.keySet()) {
+            for (int degree2 : p.polynomial.keySet()) {
+                int degree = degree1 + degree2;
+                double coeff = this.polynomial.get(degree1) * p.polynomial.get(degree2);
+                if (result.polynomial.containsKey(degree)) {
+                    coeff += result.polynomial.get(degree);
                 }
+                result.polynomial.put(degree, coeff);
             }
         }
+        this.setPolynomial(result.getPolynomial());
     }
 
-    public void derivative(TreeMap<Integer, Double> polynomial) {
-        for (int degree : polynomial.keySet()) {
-            double coefficient = polynomial.get(degree);
-            if (degree > 0) {
-                result.put(degree - 1, degree * coefficient);
+    public void derivative() {
+        Polynomial result = new Polynomial();
+        for (int degree : this.polynomial.keySet()) {
+            if (degree != 0) {
+                double coeff = this.polynomial.get(degree) * degree;
+                result.polynomial.put(degree - 1, coeff);
             }
         }
+        this.setPolynomial(result.getPolynomial());
     }
 
     public void integration() {
-        result = new TreeMap<>();
-        for (int degree : polynomial1.keySet()) {
-            double coefficient = polynomial1.get(degree);
-            result.put(degree + 1, coefficient / (degree + 1));
+        Polynomial result = new Polynomial();
+        for (int degree : this.polynomial.keySet()) {
+            double coeff = this.polynomial.get(degree) / (degree + 1);
+            result.polynomial.put(degree + 1, coeff);
         }
-        result.put(0, 0.0);
+
+        //this.setPolynomial(result.getPolynomial());
+        //System.out.println(Polynomial.toString(this.getPolynomial()));
     }
 
-    @Override
-    public String toString() {
+    public static String toString(TreeMap<Integer, Double> polynomial) {
+        DecimalFormat df = new DecimalFormat("#.##");
         StringBuilder sb = new StringBuilder();
-        DecimalFormat df = new DecimalFormat("#.###");
-
-        for (Map.Entry<Integer, Double> term : result.entrySet()) {
-            int degree = term.getKey();
-            double coeff = term.getValue();
-            if (sb.length() > 0 && coeff > 0) {
-                sb.append(" + ");
-            }
-            if (coeff < 0) {
-                sb.append("- ");
-                coeff = -coeff;
-            }
-            if (coeff != 1 || degree == 0) {
-                sb.append(df.format(coeff));
-            }
-            if (degree > 0) {
-                sb.append("x");
-                if (degree > 1) {
-                    sb.append("^").append(degree);
+        boolean firstTerm = true;
+        for (int degree : polynomial.descendingKeySet()) {
+            double coeff = polynomial.get(degree);
+            if (coeff != 0) {
+                if (firstTerm) {
+                    if (coeff < 0) {
+                        sb.append("-");
+                        coeff = -coeff;
+                    }
+                    firstTerm = false;
+                } else {
+                    sb.append(coeff < 0 ? " - " : " + ");
+                    coeff = Math.abs(coeff);
+                }
+                if (degree == 0) {
+                    sb.append(df.format(coeff));
+                } else {
+                    sb.append(df.format(coeff)).append("x");
+                    if (degree > 1) {
+                        sb.append("^").append(degree);
+                    }
                 }
             }
         }
-        if (sb.length() == 0) {
-            sb.append("0");
-        }
         return sb.toString();
     }
+
+    public boolean equals(Polynomial p1, Polynomial p2) {
+        TreeMap<Integer, Double> polynomial1 = p1.polynomial;
+        TreeMap<Integer, Double> polynomial2 = p2.polynomial;
+        if (polynomial1.size() != polynomial2.size()) {
+            return false;
+        }
+        //System.out.println(Polynomial.toString(p1.getPolynomial()));
+        //System.out.println(Polynomial.toString(p2.getPolynomial()));
+
+        for (int degree : polynomial1.keySet()) {
+            if (!polynomial2.containsKey(degree) || !polynomial1.get(degree).equals(polynomial2.get(degree))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

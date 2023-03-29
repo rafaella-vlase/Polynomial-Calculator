@@ -81,40 +81,42 @@ public class PolyCalc extends JFrame {
 
 
         addButton.addActionListener(e -> {
-            poly1 = new Polynomial(polynomial1Field.getText());
-            poly2 = new Polynomial(polynomial2Field.getText());
-            poly1.polynomial2 = poly2.polynomial1;
-            poly1.addition();
-            resultField.setText(poly1.toString());
+            Polynomial poly1 = new Polynomial(polynomial1Field.getText());
+            Polynomial poly2 = new Polynomial(polynomial2Field.getText());
+            Polynomial result = new Polynomial();
+            result.addition(poly1);
+            result.addition(poly2);
+            resultField.setText(Polynomial.toString(result.polynomial));
         });
 
-
         subButton.addActionListener(e -> {
-            poly1 = new Polynomial(polynomial1Field.getText());
-            poly2 = new Polynomial(polynomial2Field.getText());
-            poly1.polynomial2 = poly2.polynomial1;
-            poly1.subtraction();
-            resultField.setText(poly1.toString());
+            Polynomial poly1 = new Polynomial(polynomial1Field.getText());
+            Polynomial poly2 = new Polynomial(polynomial2Field.getText());
+            Polynomial result = new Polynomial();
+            result.addition(poly1);
+            result.subtraction(poly2);
+            resultField.setText(Polynomial.toString(result.polynomial));
         });
 
         mulButton.addActionListener(e -> {
-            poly1 = new Polynomial(polynomial1Field.getText());
-            poly2 = new Polynomial(polynomial2Field.getText());
-            poly1.polynomial2 = poly2.polynomial1;
-            poly1.multiplication();
-            resultField.setText(poly1.toString());
+            Polynomial poly1 = new Polynomial(polynomial1Field.getText());
+            Polynomial poly2 = new Polynomial(polynomial2Field.getText());
+            Polynomial result = new Polynomial();
+            result.multiplication(poly1);
+            result.multiplication(poly2);
+            resultField.setText(Polynomial.toString(result.polynomial));
         });
 
         derButton.addActionListener(e -> {
             Polynomial poly = new Polynomial(polynomial1Field.getText());
-            poly.derivative(poly.polynomial1);
-            resultField.setText(poly.toString());
+            poly.derivative();
+            resultField.setText(Polynomial.toString(poly.polynomial));
         });
 
         intButton.addActionListener(e -> {
             Polynomial poly = new Polynomial(polynomial1Field.getText());
             poly.integration();
-            resultField.setText(poly.toString());
+            resultField.setText(Polynomial.toString(poly.polynomial));
         });
 
         bottomPanel.add(addButton);

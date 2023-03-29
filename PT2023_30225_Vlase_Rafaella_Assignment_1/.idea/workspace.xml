@@ -8,8 +8,10 @@
       <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Operations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PolyCalc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/PolyCalc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Polynomial.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Polynomial.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PolyCalc.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Polynomial.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/polyCalc/PolyCalc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/polyCalc/PolyCalc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/polynomial/Polynomial.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/polynomial/Polynomial.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/OperationsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/OperationsTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,7 +27,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/src/main/java/org/example" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
