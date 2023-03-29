@@ -10,7 +10,6 @@ public class OperationsTest {
         Polynomial p2 = new Polynomial("-4x^2+5x^1-2");
         Polynomial res = new Polynomial("-2x^2+2x^1-1");
         p1.addition(p2);
-        //System.out.println(Polynomial.toString(p1.getPolynomial()));
         assertTrue(p1.equals(p1, res));
     }
 
@@ -29,7 +28,6 @@ public class OperationsTest {
         Polynomial p2 = new Polynomial("-4x^1+2");
         Polynomial res = new Polynomial("-8x^3+16x^2-10x^1+2");
         p1.multiplication(p2);
-        //System.out.println(Polynomial.toString(p1.getPolynomial()));
         assertTrue(p1.equals(p1, res));
 
     }
@@ -45,13 +43,8 @@ public class OperationsTest {
     @Test
     public void testIntegration() {
         Polynomial p1 = new Polynomial("3x^2-2x^1+1");
-        Polynomial res = new Polynomial("6x^1-2");
+        Polynomial res = new Polynomial("1x^3-1x^2+1");
         p1.integration();
-        //System.out.println(Polynomial.toString(p1.getPolynomial()));
-        //System.out.println(p1.equals(p1, res));
         p1.equals(p1, res);
-
-        //assertTrue(p1.equals(p1, res));
     }
-
 }

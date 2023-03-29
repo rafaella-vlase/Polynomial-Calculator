@@ -6,22 +6,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PolyCalc extends JFrame {
-
     private final JTextField polynomial1Field;
     private final JTextField polynomial2Field;
     private final JTextField resultField;
     private Polynomial poly1, poly2, result;
 
-
     public PolyCalc() {
-        // Create and configure the window
         super("Polynomial Calculator");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setResizable(true);
 
-        // Create the top panel with labels and text fields
         JPanel topPanel = new JPanel(new GridLayout(3, 2));
         JLabel polynomial1Label = new JLabel("Polynomial 1:");
         polynomial1Label.setForeground(new Color(255, 255, 255));
@@ -109,15 +105,6 @@ public class PolyCalc extends JFrame {
             resultField.setText(Polynomial.toString(result.polynomial));
         });
 
-        divButton.addActionListener(e -> {
-            Polynomial poly1 = new Polynomial(polynomial1Field.getText());
-            Polynomial poly2 = new Polynomial(polynomial2Field.getText());
-            Polynomial result = new Polynomial();
-            result.addition(poly1);
-            result.division(poly2);
-            resultField.setText(Polynomial.toString(result.polynomial));
-        });
-
         derButton.addActionListener(e -> {
             Polynomial poly = new Polynomial(polynomial1Field.getText());
             poly.derivative();
@@ -139,7 +126,6 @@ public class PolyCalc extends JFrame {
         bottomPanel.setBackground(new Color(99, 39, 99));
         add(bottomPanel, BorderLayout.CENTER);
 
-        // Show the window
         pack();
         setSize(600, 200);
         setLocationRelativeTo(null);

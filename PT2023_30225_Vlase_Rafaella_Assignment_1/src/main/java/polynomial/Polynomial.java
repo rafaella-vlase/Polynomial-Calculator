@@ -85,25 +85,6 @@ public class Polynomial {
         this.setPolynomial(result.getPolynomial());
     }
 
-    public void division(Polynomial divisor) {
-        Polynomial dividend = new Polynomial(this.polynomial);
-        Polynomial quotient = new Polynomial();
-        while (dividend.polynomial.size() >= divisor.polynomial.size()) {
-            int degreeDiff = dividend.polynomial.lastKey() - divisor.polynomial.lastKey();
-            double coeff = dividend.polynomial.lastEntry().getValue() / divisor.polynomial.lastEntry().getValue();
-            TreeMap<Integer, Double> term = new TreeMap<>();
-            term.put(degreeDiff, coeff);
-            Polynomial divisorTerm = new Polynomial(term);
-            Polynomial product = new Polynomial();
-            product.multiplication(divisorTerm);
-            dividend.subtraction(product);
-            quotient.addition(divisorTerm);
-        }
-        //return quotient;
-        this.setPolynomial(quotient.getPolynomial());
-    }
-
-
     public void derivative() {
         Polynomial result = new Polynomial();
         for (int degree : this.polynomial.keySet()) {
@@ -164,9 +145,6 @@ public class Polynomial {
         if (polynomial1.size() != polynomial2.size()) {
             return false;
         }
-        //System.out.println(Polynomial.toString(p1.getPolynomial()));
-        //System.out.println(Polynomial.toString(p2.getPolynomial()));
-
         for (int degree : polynomial1.keySet()) {
             if (!polynomial2.containsKey(degree) || !polynomial1.get(degree).equals(polynomial2.get(degree))) {
                 return false;
